@@ -3,4 +3,4 @@ This project aims to develop an online money transaction system with a simple ye
 
 ## How to Run? 
 Go to /backend directory and run command ```npm run start``` to run server\
-Go to /frontend directory and run command ```npm run dev``` to run vite + react\
+Go to /frontend directory and run command ```npm run dev``` to run vite + react
