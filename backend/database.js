@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-mongoose.connect("mongodb+srv://aniketkumar6256:earthware0306@cluster0.lsqwmdr.mongodb.net/DigitalTransaction")
+mongoose.connect(DATABASE_CONNECTION_URL)
 
 // Create a Schema for Users
 const userSchema = new mongoose.Schema({
