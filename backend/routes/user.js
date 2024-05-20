@@ -1,11 +1,11 @@
 import express from "express";
 
-const router = express.Router();
+const userRouter = express.Router();
 import zod from "zod";
-import { User, Account } from "../database";
+import { User, Account } from "../database.js";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../config";
-import { authMiddleware } from "../middleware";
+import { JWT_SECRET } from "../config.js";
+import { authMiddleware } from "../middleware.js";
 const signupBody = zod.object({
     username: zod.string().email(),
 	firstName: zod.string(),
@@ -13,11 +13,11 @@ const signupBody = zod.object({
 	password: zod.string()
 })
 
-router.post("/signup", async (req, res) => {
+userRouter.post("/signup", async (req, res) => {
     const { success } = signupBody.safeParse(req.body)
     if (!success) {
         return res.status(411).json({
-            message: "Email already taken / Incorrect inputs"
+            message: "Email already taken / Incorrect inputs / No Success"
         })
     }
 
@@ -60,7 +60,7 @@ const signinBody = zod.object({
 	password: zod.string()
 })
 
-router.post("/signin", async (req, res) => {
+userRouter.post("/signin", async (req, res) => {
     const { success } = signinBody.safeParse(req.body)
     if (!success) {
         return res.status(411).json({
@@ -96,7 +96,7 @@ const updateBody = zod.object({
     lastName: zod.string().optional(),
 })
 
-router.put("/", authMiddleware, async (req, res) => {
+userRouter.put("/", authMiddleware, async (req, res) => {
     const { success } = updateBody.safeParse(req.body)
     if (!success) {
         res.status(411).json({
@@ -113,7 +113,7 @@ router.put("/", authMiddleware, async (req, res) => {
     })
 })
 
-router.get("/bulk", async (req, res) => {
+userRouter.get("/bulk", async (req, res) => {
     const filter = req.query.filter || "";
 
     const users = await User.find({
@@ -138,4 +138,4 @@ router.get("/bulk", async (req, res) => {
     })
 })
 
-exports = router;
+export {userRouter};

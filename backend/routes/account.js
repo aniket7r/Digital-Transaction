@@ -1,12 +1,12 @@
 // will carry out the account related routes
 
 import express from "express";
-import { authMiddleware } from "../middleware";
-import { Account } from "../database";  
+import { authMiddleware } from "../middleware.js";
+import { Account } from "../database.js";  
 import mongoose from "mongoose";
-const router = express.Router();
+const accountRouter = express.Router();
 
-router.get("/balance", authMiddleware, async (req, res) => {
+accountRouter.get("/balance", authMiddleware, async (req, res) => {
     const account = await Account.findOne({
         userId: req.userId
     });
@@ -16,11 +16,11 @@ router.get("/balance", authMiddleware, async (req, res) => {
     })
 });
 
-router.post("/transfer", authMiddleware, async (req, res) => {
+accountRouter.post("/transfer", authMiddleware, async (req, res) => {
     const session = await mongoose.startSession();
 
     session.startTransaction();
-    const { amount, to } = req.body;
+    const { to, amount } = req.body;
 
     // Fetch the accounts within the transaction
     const account = await Account.findOne({ userId: req.userId }).session(session);
@@ -52,4 +52,4 @@ router.post("/transfer", authMiddleware, async (req, res) => {
     });
 });
 
-exports = router;
+export {accountRouter};
